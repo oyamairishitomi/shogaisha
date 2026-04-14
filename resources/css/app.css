@@ -1,0 +1,44 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer base{
+    @keyframes blink {
+        0%,100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+    .cursor {
+        animation: blink 1s infinite;
+    }
+    .ProseMirror p.is-empty:first-child::before {
+        content: attr(data-placeholder);
+        color: #9ca3af;
+        pointer-events: none;
+        float: left;
+        height: 0;
+    }
+}
+
+#article-editor .ProseMirror {
+    min-height: 200px;
+    outline: none;
+}
+
+body.ruby-off ruby rt { display: none; }
+#ruby-switch:checked + label .ruby-knob { left: 1.25rem; }
+#ruby-switch:checked + label > span { background: #fcd34d; }
+
+.ProseMirror h2 { font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0; }
+.ProseMirror h3 { font-size: 1.25rem; font-weight: bold; margin: 0.5rem 0; }
+.ProseMirror strong { font-weight: bold; }
+.ProseMirror em { font-style: italic; }
+.ProseMirror ul { list-style-type: disc; padding-left: 1.5rem; }
+.ProseMirror ol { list-style-type: decimal; padding-left: 1.5rem; }

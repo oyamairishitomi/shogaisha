@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="dummy">
+    <title>Document</title>
+</head>
+<body>
+    <button id="start-btn">録音開始</button>
+    <button id="stop-btn" disabled>録音停止</button>
+    <audio id="preview" controls></audio>
+    <textarea id="output" rows="5"></textarea>
+
+    <script>
+        let recorder
+        let chunks = []
+        
+        document.getElementById('start-btn').addEventListener('click', async () => {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+            recorder = new MediaRecorder(stream)
+            chunks = []
+
+            recorder.ondataavailable = (e) => chunks.push(e.data)
+
+            recorder.onstop = async () => {
+                const blob = new Blob(chunks, { type: 'audio/webm' })
+                document.getElementById('preview').src = URL.createObjectURL(blob)
+
+                //formdataに音声ファイルをのせてララベルにおくる
+                const formData = new FormData()
+                formData.append('audio', blob, 'audio.webm')
+
+                const res = await fetch('/shogaisha/public/api/speech', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: formData
+                })
+
+                const data = await res.json()
+                document.getElementById('output').value = data.text
+            }
+
+            recorder.start()
+            document.getElementById('start-btn').disabled = true
+            document.getElementById('stop-btn').disabled = false
+        })
+
+        document.getElementById('stop-btn').addEventListener('click', () => {
+            recorder.stop()
+            document.getElementById('start-btn').disabled = false
+            document.getElementById('stop-btn').disabled = true
+        })
+    </script>
+</body>
+</html>
