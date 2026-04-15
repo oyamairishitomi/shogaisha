@@ -1,4 +1,6 @@
-<<<<<<< HEAD
+2026.4.15 アーキテクチャ上の課題↓
+https://github.com/oyamairishitomi/shogaisha/blob/main/%E3%82%A2%E3%83%BC%E3%82%AD%E3%83%86%E3%82%AF%E3%83%81%E3%83%A3%E4%B8%8A%E3%81%AE%E8%AA%B2%E9%A1%8C.md
+
 # shogaisha.
 
 > この星で障害者（それに類するもの、handicappedなど）とよばれる人たちの声のサイト
