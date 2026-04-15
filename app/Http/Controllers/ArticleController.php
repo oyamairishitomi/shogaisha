@@ -141,10 +141,6 @@ class ArticleController extends Controller
             $imagePath = $request->file('image_path')->store('image_path', 'public');
         }
 
-        if ($request->hasFile('image_path')){
-            $imagePath = $request->file('image_path')->store('image_path','public');
-        }
-        
         $article->update([
             'title' => $request->title,
             'body' => $request->body,

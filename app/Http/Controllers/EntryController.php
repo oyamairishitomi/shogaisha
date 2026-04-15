@@ -46,6 +46,9 @@ class EntryController extends Controller
 
     public function destroy(Entry $entry)
     {
+        if (auth()->id() !== $entry->user_id && auth()->user()->authority !== 0) {
+            abort(403);
+        }
         $entry->delete();
         return redirect()->route('articles.index');
     }
